@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>v-if和v-show的学习页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="toggle()"></input>
+        <p v-if='flag'>这是v-if的输出</p>
+        <p v-show='flag'>这是v-show的输出</p>
+
+    </div>
+</body>
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            flag: false,
+        },
+        methods: {
+            toggle: function () {
+                this.flag = !this.flag
+            }
+        }
+    })
+</script>
+
+</html>

@@ -11,8 +11,19 @@
 
 <body>
     <div id="app">
+        <label>
+            id:<input type="text" v-model="id"/>
+        </label>
+
+        <label>
+                name:<input type="text" v-model="name"/>
+            </label>
+
+            <input type="button" value="添加" @click="add"/>
         <div v-for='i in 10'>{{i}}</div>
-        <p v-for='user in list1'>id為：{{user.id}}------name為：{{user.name}}</p>
+        <p v-for='user in list1' :key="user.id">
+            id為：{{user.id}}------name為：{{user.name}}
+        </p>
         <p v-for='(index,item) in list2'>index為：{{index}}------item為：{{item}}</p>
     </div>
 </body>
@@ -20,6 +31,8 @@
     let vue = new Vue({
         el: '#app',
         data: {
+            id:'',
+            name:'',
             list1: [
                 { id:'1',name: '張三' },
                 { id:'2',name: '李四' },
@@ -32,7 +45,9 @@
             // },
         },
         methods: {
-
+            add:function(){
+                this.list1.push({id:this.id,name:this.name})
+            }
         }
     })
 </script>
