@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1 :style="{color:'red','font-weight':200}">标题1</h1>
+
+        <h2 :style="styleObj1">ceshi</h2>
+
+        <h3 :style='[styleObj1,styleObj2]'>測試兩個style值</h3>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+
+        data: {
+            styleObj1: { 'color': 'green', 'font-weight': 200},
+            styleObj2:{'font-style':'italic'}
+        },
+
+        methods: {
+            handleClick() {
+                Toast.succeed('Click')
+            },
+        }
+    })
+</script>
+
+</html>
