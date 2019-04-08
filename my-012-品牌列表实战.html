@@ -25,12 +25,12 @@
                     ID:<input type="text" class="form-control" v-model="id">
                 </label>
                 <label>
-                    NAME:<input type="text" class="form-control" v-model="name">
+                    NAME:<input type="text" class="form-control" v-model="name" @keyup.enter="add">
                 </label>
                 <input type="button" value="添加" class="btn btn-primary" @click="add">
                 <label>
-                        <input type="text" class="form-control" v-model="keyWords">
-                    <input type="button" value="搜索名称关键字" class="btn btn-primary" v-mode="keyWords" @click="add">
+                    <input type="text" class="form-control" v-model="keyWords" v-focus>
+                    <input type="button" value="搜索名称关键字" class="btn btn-primary" v-mode="keyWords" @click="add" >
                 </label>
             </div>
         </div>
@@ -45,10 +45,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in search(keyWords)"  :key="user.id">
+                <tr v-for="user in search(keyWords)" :key="user.id">
                     <td>{{user.id}}</td>
                     <td v-text="user.name"></td>
-                    <td>{{user.ctime}}</td>
+                    <td>{{user.ctime|dateFormat('yyyy-MM-dd 1')}}</td>
                     <td>
                         <a href="" @click.prevent="del(user.id)">删除</a>
                     </td>
@@ -58,12 +58,38 @@
     </div>
 </body>
 <script>
+
+     // 定义全局过滤器
+        // Vue.filter('过滤器名称',function(){})
+        Vue.filter('dateFormat',function(datestr,pattern=''){
+            let date = new Date(datestr)
+            let year = date.getFullYear()
+            let month = (date.getMonth() + 1).toString().padStart(2,'0');
+            let day = date.getDate().toString().padStart(2,'0');
+            let hour = date.getHours().toString().padStart(2,'0');
+            let minute = date.getMinutes().toString().padStart(2,'0');
+            let second = date.getSeconds().toString().padStart(2,'0');
+            // return year + '-' + month + '-' + day
+            if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                return `${year}-${month}-${day}`
+            }else{
+                return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+            }
+            
+        })
+
+        Vue.directive('focus',{
+            inserted:function (el){
+                el.focus()
+            }
+        })
+
     let vue = new Vue({
         el: '#app',
         data: {
             id: '',
             name: '',
-            keyWords:'',//搜索关键字
+            keyWords: '',//搜索关键字
             list1: [
                 { id: 1, name: "宝马", ctime: new Date() },
                 { id: 2, name: "奔驰", ctime: new Date() },
@@ -80,33 +106,35 @@
                 //     }
                 // })
 
-                var index = this.list1.findIndex(user=>{
-                    if(user.id == id){
+                var index = this.list1.findIndex(user => {
+                    if (user.id == id) {
                         return true;
                     }
                 })
-                this.list1.splice(index,1)
+                this.list1.splice(index, 1)
             },
             add() {
                 this.list1.push({ id: this.id, name: this.name, ctime: new Date() })
             },
-            search(keyWords){
-                var newList=[]
+            search(keyWords) {
+                var newList = []
                 this.list1.forEach(item => {
-                    
-                    if(item.name.indexOf(keyWords) != -1)
-                    {
+
+                    if (item.name.indexOf(keyWords) != -1) {
                         return newList.push(item)
                     }
-                    
+
                 });
                 return newList;
             }
         },
         filters: {
 
-        }
+        },
+        
     })
+
+    
 </script>
 
 </html>
